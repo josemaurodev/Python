@@ -3,7 +3,7 @@ from direct.showbase.ShowBase import ShowBase
 
 # Define o tamanho da janela
 loadPrcFileData("", "win-size 800 600")
-# Define o título da janela
+# Define o título da janela como Minha Primeira Janela
 loadPrcFileData("", "window-title Minha Primeira Janela")
 
 class MyApp(ShowBase):
