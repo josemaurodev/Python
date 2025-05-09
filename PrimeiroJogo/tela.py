@@ -10,6 +10,7 @@ loadPrcFileData("", "window-title Minha Primeira Janela")
 
 class MyApp(ShowBase):
     def __init__(self):
+        # Chama o construtor da classa ShowBase
         super().__init__()
         # Desativa o controle da câmera pelo mouse (ainda não usamos câmera 3D)
         self.disable_mouse()
