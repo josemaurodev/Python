@@ -14,8 +14,10 @@ class MyApp(ShowBase):
         cm = CardMaker("meu_quadrado")
         cm.setFrame(-0.1, 0.1, -0.1, 0.1)  # Largura e altura do quadrado
 
+        # Cria a geometria e embrulha ela no nó
         quadrado = NodePath(cm.generate())
-        quadrado.setColor(1, 0, 0, 1)  # Cor vermelha (R, G, B, A)
+        # Muda as características desse nó
+        quadrado.setColor(1, 0, 1, 1)  # Cor vermelha (R, G, B, A)
         quadrado.setPos(0, 0, 0)       # Posição central (x, y, z)
         quadrado.reparentTo(self.render2d)  # Adiciona o quadrado na tela 2D
 

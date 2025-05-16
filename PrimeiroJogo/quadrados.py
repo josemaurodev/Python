@@ -23,10 +23,10 @@ class MyApp(ShowBase):
         self.accept("arrow_right", self.mover, [self.q1, 0.05, 0])
 
         # Controles do quadrado 2 (WASD)
-        self.accept("w", self.mover, [self.q2, 0, 0.05])
-        self.accept("s", self.mover, [self.q2, 0, -0.05])
-        self.accept("a", self.mover, [self.q2, -0.05, 0])
-        self.accept("d", self.mover, [self.q2, 0.05, 0])
+        self.accept("w" or "W", self.mover, [self.q2, 0, 0.05])
+        self.accept("s" or "S", self.mover, [self.q2, 0, -0.05])
+        self.accept("a" or "A", self.mover, [self.q2, -0.05, 0])
+        self.accept("d" or "D", self.mover, [self.q2, 0.05, 0])
 
     def mover(self, node, dx, dz):
         x = node.getX() + dx
