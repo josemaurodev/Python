@@ -8,6 +8,7 @@ class MyApp(ShowBase):
 
         cm = CardMaker("q1")
         cm.setFrame(-0.1, 0.1, -0.1, 0.1)
+        
         self.q1 = self.render2d.attachNewNode(cm.generate())
         self.q1.setColor(1, 0, 0, 1)
         self.q1.setPos(-0.5, 0, 0)
