@@ -10,17 +10,17 @@ class MyApp(ShowBase):
         self.disable_mouse()  # Desabilita controle de câmera padrão do Panda3D (mouse)
 
         cm = CardMaker("q")  # Cria um CardMaker, que gera um quadrado 2D
-        cm.setFrame(-0.1, 0.1, -0.1, 0.1)  # Define tamanho do quadrado (0.2x0.2, centrado na origem)
+        cm.setFrame(-0.01, 0.01, -0.1, 0.1)  # Define tamanho do quadrado (0.2x0.2, centrado na origem)
 
         # Cria paddle esquerdo (vermelho) na posição x = -0.9
         self.q1 = self.render2d.attachNewNode(cm.generate())  
         self.q1.setColor(1, 0, 0, 1)  # Cor vermelha (R=1, G=0, B=0, alpha=1)
-        self.q1.setPos(-0.9, 0, 0)  # Posiciona o paddle na borda esquerda da tela
+        self.q1.setPos(-0.99, 0, 0)  # Posiciona o paddle na borda esquerda da tela
 
         # Cria paddle direito (azul) na posição x = 0.9
         self.q2 = self.render2d.attachNewNode(cm.generate())
         self.q2.setColor(0, 0, 1, 1)  # Cor azul
-        self.q2.setPos(0.9, 0, 0)  # Posiciona na borda direita da tela
+        self.q2.setPos(0.99, 0, 0)  # Posiciona na borda direita da tela
 
         # Cria a bolinha (amarela), menor que os paddles
         ball_cm = CardMaker("ball")
@@ -38,11 +38,11 @@ class MyApp(ShowBase):
 
         # Define controles para mover os paddles:
         # Paddle esquerdo (q1) controla com setas para cima e para baixo
-        self.accept("arrow_up", self.mover, [self.q1, 0, 0.05])
-        self.accept("arrow_down", self.mover, [self.q1, 0, -0.05])
+        self.accept("w", self.mover, [self.q1, 0, 0.2])
+        self.accept("s", self.mover, [self.q1, 0, -0.2])
         # Paddle direito (q2) controla com as teclas W (subir) e S (descer)
-        self.accept("w", self.mover, [self.q2, 0, 0.05])
-        self.accept("s", self.mover, [self.q2, 0, -0.05])
+        self.accept("arrow_up", self.mover, [self.q2, 0, 0.2])
+        self.accept("arrow_down", self.mover, [self.q2, 0, -0.2])
 
     def mover(self, node, dx, dz):
         # Move o paddle passado como parâmetro (node) nas direções dx e dz
@@ -50,7 +50,7 @@ class MyApp(ShowBase):
         z = node.getZ() + dz
 
         # Garante que o paddle não saia da área visível (limites de -0.9 a 0.9 para x e z)
-        x = max(-1 + 0.1, min(1 - 0.1, x))
+        x = max(-1 + 0.01, min(1 - 0.01, x))
         z = max(-1 + 0.1, min(1 - 0.1, z))
 
         # Aplica a nova posição do paddle
@@ -70,16 +70,21 @@ class MyApp(ShowBase):
 
         # Colisão com paddle esquerdo:
         # Se a bola estiver na horizontal próxima ao paddle e a distância vertical for pequena (colisão)
-        if x - 0.05 <= self.q1.getX() + 0.1:
-            if abs(z - self.q1.getZ()) <= 0.1:
+        if x - 0.05 <= self.q1.getX() + 0.01:
+            #z é a posição vertical da pelotinha
+            #self.q2.getZ é a posição vertical do paddle q2
+            #absulto disso é o calculo da distancia vertical entre o centro da bolinha e o centro do paddle
+            #se a distancia por pequena, significa que bateu na raquete
+            #assim, pode inverter
+            if abs(z - self.q1.getZ()) <= 0.01:
                 self.ball_dx *= -1  # Inverte direção horizontal para "rebater"
-                x = self.q1.getX() + 0.1 + 0.05  # Ajusta posição para evitar "grudar" no paddle
+                x = self.q1.getX() + 0.01 + 0.05  # Ajusta posição para evitar "grudar" no paddle
 
         # Colisão com paddle direito:
-        if x + 0.05 >= self.q2.getX() - 0.1:
-            if abs(z - self.q2.getZ()) <= 0.1:
+        if x + 0.05 >= self.q2.getX() - 0.01:
+            if abs(z - self.q2.getZ()) <= 0.01:
                 self.ball_dx *= -1
-                x = self.q2.getX() - 0.1 - 0.05
+                x = self.q2.getX() - 0.01 - 0.05
 
         # Atualiza a posição da bola na tela
         self.ball.setPos(x, 0, z)
