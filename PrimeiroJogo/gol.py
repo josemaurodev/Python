@@ -13,17 +13,17 @@ class MyApp(ShowBase):
 
         # Criamos o formato do paddle: um quadrado 0.2 x 0.2 (de -0.1 a 0.1 nas duas direções)
         cm = CardMaker("q")
-        cm.setFrame(-0.1, 0.1, -0.1, 0.1)
+        cm.setFrame(-0.01, 0.01, -0.1, 0.1)
 
         # Paddle esquerdo: cria um node 2D com o formato, pinta vermelho e posiciona no lado esquerdo
         self.q1 = self.render2d.attachNewNode(cm.generate())
         self.q1.setColor(1, 0, 0, 1)  # vermelho
-        self.q1.setPos(-0.9, 0, 0)    # quase no limite esquerdo
+        self.q1.setPos(-0.99, 0, 0)    # quase no limite esquerdo
 
         # Paddle direito: igual, mas azul e no lado direito
         self.q2 = self.render2d.attachNewNode(cm.generate())
         self.q2.setColor(0, 0, 1, 1)  # azul
-        self.q2.setPos(0.9, 0, 0)
+        self.q2.setPos(0.99, 0, 0)
 
         # Cria a bolinha: um quadrado menor (0.1 x 0.1) amarelo no centro
         ball_cm = CardMaker("ball")
@@ -43,10 +43,10 @@ class MyApp(ShowBase):
         taskMgr.add(self.atualizar_bola, "atualizar_bola")
 
         # Mapeia teclas para mover os paddles
-        self.accept("arrow_up", self.mover, [self.q1, 0, 0.05])    # seta cima move paddle esquerdo para cima
-        self.accept("arrow_down", self.mover, [self.q1, 0, -0.05]) # seta baixo move paddle esquerdo para baixo
-        self.accept("w", self.mover, [self.q2, 0, 0.05])           # 'w' move paddle direito para cima
-        self.accept("s", self.mover, [self.q2, 0, -0.05])          # 's' move paddle direito para baixo
+        self.accept("w", self.mover, [self.q1, 0, 0.2])    # seta cima move paddle esquerdo para cima
+        self.accept("s", self.mover, [self.q1, 0, -0.2]) # seta baixo move paddle esquerdo para baixo
+        self.accept("arrow_up", self.mover, [self.q2, 0, 0.2])           # 'w' move paddle direito para cima
+        self.accept("arrow_down", self.mover, [self.q2, 0, -0.2])          # 's' move paddle direito para baixo
 
     # Função para mover paddles
     def mover(self, node, dx, dz):
@@ -55,7 +55,7 @@ class MyApp(ShowBase):
         z = node.getZ() + dz
 
         # Limita o movimento para não sair da tela (entre -0.9 e 0.9 no x, -0.9 e 0.9 no z)
-        x = max(-1 + 0.1, min(1 - 0.1, x))
+        x = max(-1 + 0.01, min(1 - 0.01, x))
         z = max(-1 + 0.1, min(1 - 0.1, z))
 
         # Aplica a nova posição ao paddle
@@ -90,18 +90,18 @@ class MyApp(ShowBase):
             self.ball_dz *= -1  # inverte a direção vertical (rebote)
 
         # Verifica colisão com paddle esquerdo (x da bola próximo ao paddle esquerdo)
-        if x - 0.05 <= self.q1.getX() + 0.1:
+        if x - 0.01 <= self.q1.getX() + 0.01:
             # Se a bolinha está na altura do paddle (dentro da faixa do paddle)
-            if abs(z - self.q1.getZ()) <= 0.1:
+            if abs(z - self.q1.getZ()) <= 0.01:
                 self.ball_dx *= -1  # inverte a direção horizontal (rebote)
                 # Ajusta a posição da bola para não "entrar" no paddle
-                x = self.q1.getX() + 0.1 + 0.05
+                x = self.q1.getX() + 0.1 + 0.01
 
         # Verifica colisão com paddle direito
-        if x + 0.05 >= self.q2.getX() - 0.1:
-            if abs(z - self.q2.getZ()) <= 0.1:
+        if x + 0.01 >= self.q2.getX() - 0.01:
+            if abs(z - self.q2.getZ()) <= 0.01:
                 self.ball_dx *= -1
-                x = self.q2.getX() - 0.1 - 0.05
+                x = self.q2.getX() - 0.1 - 0.01
 
         # Verifica se a bola passou da tela (gol)
         if x < -1 or x > 1:

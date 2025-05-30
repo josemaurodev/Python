@@ -45,10 +45,10 @@ class MyApp(ShowBase):
         taskMgr.add(self.atualizar_bola, "atualizar_bola")
 
         # Controles
-        self.accept("arrow_up", self.mover, [self.q1, 0, 0.05])
-        self.accept("arrow_down", self.mover, [self.q1, 0, -0.05])
-        self.accept("w", self.mover, [self.q2, 0, 0.05])
-        self.accept("s", self.mover, [self.q2, 0, -0.05])
+        self.accept("arrow_up", self.mover, [self.q2, 0, 0.2])
+        self.accept("arrow_down", self.mover, [self.q2, 0, -0.2])
+        self.accept("w" or "W", self.mover, [self.q1, 0, 0.05])
+        self.accept("s" or "S", self.mover, [self.q1, 0, -0.05])
 
     def mover(self, node, dx, dz):
         if not self.jogo_ativo:

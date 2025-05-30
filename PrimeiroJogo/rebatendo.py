@@ -71,15 +71,16 @@ class MyApp(ShowBase):
         # Colisão com paddle esquerdo:
         # Se a bola estiver na horizontal próxima ao paddle e a distância vertical for pequena (colisão)
         if x - 0.05 <= self.q1.getX() + 0.01:
-            #z é a posição vertical da pelotinha
-            #self.q2.getZ é a posição vertical do paddle q2
-            #absulto disso é o calculo da distancia vertical entre o centro da bolinha e o centro do paddle
-            #se a distancia por pequena, significa que bateu na raquete
-            #assim, pode inverter
+            
             if abs(z - self.q1.getZ()) <= 0.01:
                 self.ball_dx *= -1  # Inverte direção horizontal para "rebater"
                 x = self.q1.getX() + 0.01 + 0.05  # Ajusta posição para evitar "grudar" no paddle
 
+        #z é a posição vertical da pelotinha
+            #self.q2.getZ é a posição vertical do paddle q2
+            #absulto disso é o calculo da distancia vertical entre o centro da bolinha e o centro do paddle
+            #se a distancia for pequena, significa que bateu na raquete
+            #assim, pode inverter
         # Colisão com paddle direito:
         if x + 0.05 >= self.q2.getX() - 0.01:
             if abs(z - self.q2.getZ()) <= 0.01:
